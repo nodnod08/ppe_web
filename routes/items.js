@@ -49,6 +49,8 @@ router.post('/add-item', async function (req, res) {
         content: req.body.content,
         stocks: req.body.stocks,
         added_by: user_info,
+        onModel: category.model_name,
+        brand: brand._id,
       });
       if (typeof req.body.price != 'undefined') {
         new_item.price = req.body.price;
@@ -59,13 +61,32 @@ router.post('/add-item', async function (req, res) {
           { $push: { items: result } },
           () => {
             res.send({
-              success: true,
+              result: 'success',
               message: 'Item added successfuly',
             });
           }
         );
       });
     });
+  });
+});
+
+router.get('/get-items/:page/:rowsPerPage', async function (req, res) {
+  const pageUrl = Number(req.params.page) || 1;
+  const perPage = Number(req.params.rowsPerPage) || 10;
+  const offset = perPage * pageUrl - perPage;
+
+  const result = await Items.findAll({
+    limit: [offset, perPage],
+  });
+
+  const total = await Items.count();
+
+  res.send({
+    total,
+    data: result,
+    current_page: pageUrl,
+    total_pages: Math.ceil(total / perPage),
   });
 });
 
