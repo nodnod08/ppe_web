@@ -75,12 +75,12 @@ router.get('/get-items/:page/:rowsPerPage', async function (req, res) {
   const pageUrl = Number(req.params.page) || 1;
   const perPage = Number(req.params.rowsPerPage) || 10;
   const offset = perPage * pageUrl - perPage;
+  y;
+  const result = await Items.find({}, null, { limit: perPage, skip: offset })
+    .populate('brand')
+    .exec();
 
-  const result = await Items.findAll({
-    limit: [offset, perPage],
-  });
-
-  const total = await Items.count();
+  const total = await Items.countDocuments();
 
   res.send({
     total,
