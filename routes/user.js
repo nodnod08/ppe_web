@@ -1,6 +1,7 @@
 // MODULES
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const passport = require('passport');
+const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
@@ -37,7 +38,7 @@ router.post('/register-admin', async function(req, res) {
 	});
 });
 
-router.post('/register-user', async function(req, res) {
+router.post('/register-user', function(req, res) {
 	const user_inital = {
 		username: req.body.username,
 		userType: 2,
@@ -58,10 +59,7 @@ router.post('/register-user', async function(req, res) {
 		user_inital.password = hash;
 		const new_user = new Users(user_inital);
 		new_user.save().then((result) => {
-			res.send({
-				success: true,
-				message: 'Successfuly registered',
-			});
+			passport.authenticate('local')(req, res, function() {});
 		});
 	});
 });
@@ -112,6 +110,21 @@ router.post('/login-admin', function(req, res) {
 			});
 		}
 	});
+});
+
+router.post('/login-user', function(req, res, next) {
+	passport.authenticate('local', function(err, user, info) {
+		if (!user) {
+		} else {
+			req.login(user, function(err) {
+				if (err) {
+					console.log(err);
+					return;
+				}
+				res.redirect('/');
+			});
+		}
+	})(req, res, next);
 });
 
 module.exports = router;
