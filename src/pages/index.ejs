@@ -4,8 +4,8 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>| Pro Prints Enterprise |</title>
-		<link rel="stylesheet" href="./assets/css/bootstrap.css" />
-		<link rel="stylesheet" href="./assets/css/carousel.css" />
+		<link rel="stylesheet" href="/assets/css/bootstrap.css" />
+		<link rel="stylesheet" href="/assets/css/carousel.css" />
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -16,9 +16,9 @@
 	<body>
 		<div id="app">
 			<%- include('includes/header') -%> <% switch (location) { case 'index' : %> <%-
-			include('index_page') -%> <% break; case 'login' : %> <%- include('login_page') -%> <% break;
-			case 'register' : %> <%- include('register_page') -%> <% break; } %> <%-
-			include('includes/footer') -%>
+			include('index_page') -%> <% break; case 'faq' : %> <%- include('faq_page') -%> <% break; case
+			'products' : %> <%- include('products_page') -%> <% break; case 'customer_service' : %> <%-
+			include('customer_service_page') -%> <% break; } %> <%- include('includes/footer') -%>
 		</div>
 		<script
 			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -35,6 +35,6 @@
 			integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
 			crossorigin="anonymous"
 		></script>
-		<script src="./build/index.js"></script>
+		<script src="/build/index.js"></script>
 	</body>
 </html>

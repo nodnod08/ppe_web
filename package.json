@@ -34,6 +34,7 @@
 		"passport": "^0.4.1",
 		"passport-local": "^1.0.0",
 		"vue": "^2.6.11",
+		"vue-scroll-reveal": "^1.0.11",
 		"vuelidate": "^0.7.5",
 		"vuex": "^3.4.0"
 	},

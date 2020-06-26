@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
 		<div class="container">
 			<a class="navbar-brand" href="#">
-				<img src="assets/images/logo_old.png" width="50px" height="45px" alt="" />
+				<img src="/assets/images/logo_old.png" width="50px" height="45px" alt="" />
 			</a>
 			<button
 				class="navbar-toggler"
@@ -18,15 +18,15 @@
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				<ul class="navbar-nav mr-auto">
 					<li <% if (location == 'faq') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="#"
+						<a class="nav-link" href="/faq"
 							><small>FAQ</small></a
 						>
 					</li>
 					<li <% if (location == 'customer-service') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="#"><small>CUSTOMER SERVICE</small></a>
+						<a class="nav-link" href="/customer_service"><small>CUSTOMER SERVICE</small></a>
 					</li>
 					<li <% if (location == 'products') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="#"
+						<a class="nav-link" href="/products"
 							><small>PRODUCTS</small></a
 						>
 					</li>
@@ -42,38 +42,6 @@
 						Search
 					</button>
 				</form>
-				<%
-					if(isAuthenticated) {
-				%>
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<%= user_credentials.firstName %>
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="/orders">My Orders</a>
-					<a class="dropdown-item" href="/favourite">My Favourites</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="/api-user/logout">Logout</a>
-					</div>
-				</li>
-					</ul>
-				<%
-					} else {
-				%>
-				<ul class="navbar-nav ml-auto">
-					<li <% if (location == 'login') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="/login"><small>Login</small></a>
-					</li>
-					<li <% if (location == 'register') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="/register"
-							><small>Creat Account</small></a
-						>
-					</li>
-				</ul>
-				<%
-					}
-				%>
 			</div>
 		</div>
 	</nav>

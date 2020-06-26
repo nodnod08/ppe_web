@@ -27,7 +27,7 @@ app.use(bodyParser.json({ limit: '2048mb' }));
 app.use(express.urlencoded({ extended: false }));
 
 // serving external files
-app.use(express.static(path.join(__dirname, '/src/')));
+app.use(express.static(path.join(__dirname, '/src')));
 app.set('view engine', 'ejs');
 
 // session
