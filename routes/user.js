@@ -115,16 +115,30 @@ router.post('/login-admin', function(req, res) {
 router.post('/login-user', function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 		if (!user) {
+			res.send({
+				success: false,
+				message: info,
+			});
 		} else {
 			req.login(user, function(err) {
 				if (err) {
-					console.log(err);
-					return;
+					res.send({
+						success: false,
+						message: err.message,
+					});
+				} else {
+					res.send({
+						success: true,
+					});
 				}
-				res.redirect('/');
 			});
 		}
 	})(req, res, next);
+});
+
+router.get('/logout', function(req, res) {
+	req.logout();
+	res.redirect('/');
 });
 
 module.exports = router;

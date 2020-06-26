@@ -9,10 +9,8 @@
 	},
 	"nodemonConfig": {
 		"ignore": [
-			"views/*",
-			"views-v2/*",
 			"webpack.config.js",
-			"src/pages/*"
+			"src/*"
 		],
 		"delay": "2500"
 	},
@@ -36,7 +34,8 @@
 		"passport": "^0.4.1",
 		"passport-local": "^1.0.0",
 		"vue": "^2.6.11",
-		"vuelidate": "^0.7.5"
+		"vuelidate": "^0.7.5",
+		"vuex": "^3.4.0"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.10.3",

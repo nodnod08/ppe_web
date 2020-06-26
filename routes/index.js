@@ -18,22 +18,15 @@ const Printer_Brands = require('../models/Printer_Brands');
 const Cartridge_Brands = require('../models/Cartridge_Brands');
 
 router.get('/', routeParse, renderer, async function(req, res) {
-	res.showView('register', null);
-	// res.render(VIEWS + '/index', {
-	// 	location: req.page_location,
-	// });
+	res.showView(null, null);
 });
 
-router.get('/login', routeParse, async function(req, res) {
-	res.render(VIEWS + '/index', {
-		location: req.page_location,
-	});
+router.get('/login', routeParse, renderer, async function(req, res) {
+	res.showView(null, null);
 });
 
-router.get('/register', routeParse, async function(req, res) {
-	res.render(VIEWS + '/index', {
-		location: req.page_location,
-	});
+router.get('/register', routeParse, renderer, async function(req, res) {
+	res.showView(null, null);
 });
 
 module.exports = router;
