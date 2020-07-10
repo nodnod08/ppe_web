@@ -3,12 +3,11 @@ const { VueLoaderPlugin } = require('vue-loader');
 const DEV_DIRECTORY = path.join(__dirname, 'src', 'js');
 const PROD_DIRECTORY = path.join(__dirname, 'src', 'build');
 const fs = require('fs');
+
 const { getAllfiles } = require('./config/list_all_files');
 
 module.exports = {
-	entry: {
-		...getAllfiles(),
-	},
+	entry: { index: './src/js/index.js' },
 	output: {
 		filename: '[name].js',
 		path: PROD_DIRECTORY,

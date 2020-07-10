@@ -1,7 +1,7 @@
 <header>
 	<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
 		<div class="container">
-			<a class="navbar-brand" href="#">
+			<a class="navbar-brand" href="/">
 				<img src="/assets/images/logo_old.png" width="50px" height="45px" alt="" />
 			</a>
 			<button
@@ -17,16 +17,16 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				<ul class="navbar-nav mr-auto">
-					<li <% if (location == 'faq') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="/faq"
-							><small>FAQ</small></a
+					<li <% if (location == 'about-us') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
+						<a class="nav-link" href="/about-us"
+							><small>ABOUT US</small></a
 						>
 					</li>
-					<li <% if (location == 'customer-service') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="/customer_service"><small>CUSTOMER SERVICE</small></a>
+					<li <% if (location == 'support') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
+						<a class="nav-link" href="/support"><small>SUPPORT</small></a>
 					</li>
 					<li <% if (location == 'products') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="/products"
+						<a class="nav-link" href="/products?page=1"
 							><small>PRODUCTS</small></a
 						>
 					</li>

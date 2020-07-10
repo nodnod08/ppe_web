@@ -23,17 +23,17 @@ router.get('/', routeParse, renderer, async function(req, res) {
 	res.showView(null, null);
 });
 
-router.get('/login', routeParse, renderer, async function(req, res) {
-	res.showView(null, null);
-});
+// router.get('/login', routeParse, renderer, async function(req, res) {
+// 	res.showView(null, null);
+// });
 
-router.get('/register', routeParse, renderer, async function(req, res) {
-	res.showView(null, null);
-});
+// router.get('/register', routeParse, renderer, async function(req, res) {
+// 	res.showView(null, null);
+// });
 
-router.get('/products/:page', routeParse, renderer, async function(req, res) {
-	const page = req.params.page;
+router.get('/products', routeParse, renderer, async function(req, res) {
 	const query = req.query;
+	const page = Number(query.page);
 	const perPage = query.perPage || 9;
 	const offset = perPage * page - perPage;
 
@@ -47,10 +47,33 @@ router.get('/products/:page', routeParse, renderer, async function(req, res) {
 		JSON.stringify({
 			total,
 			data: result,
+			query,
 			current_page: page,
 			total_pages: Math.ceil(total / perPage),
 		})
 	);
+});
+
+router.get('/product/:id', routeParse, renderer, async function(req, res) {
+	const id = req.params.id;
+
+	const result = await Items.findOne({ _id: id })
+		.populate('brand')
+		.exec();
+	res.showView(
+		null,
+		JSON.stringify({
+			data: result,
+		})
+	);
+});
+
+router.get('/about-us', routeParse, renderer, async function(req, res) {
+	res.showView(null, null);
+});
+
+router.get('/support', routeParse, renderer, async function(req, res) {
+	res.showView(null, null);
 });
 
 module.exports = router;

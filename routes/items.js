@@ -95,12 +95,30 @@ router.get('/get-items/:page/:rowsPerPage', async function(req, res) {
 	});
 });
 
-router.post('/delete-array', function(req, res) {
-	Printer_Brands.update({ _id: req.body.id }, { $pull: { items: req.body.id_array } }).then(
-		(result) => {
-			console.log(result);
-		}
+router.post('/delete-item', async function(req, res) {
+	await eval(req.body.onModel).updateOne(
+		{ _id: req.body.id },
+		{ $pull: { items: req.body.idToDelete } }
 	);
+
+	await Items.find({ _id: req.body.idToDelete }).deleteOne();
+
+	const pageUrl = Number(req.params.page) || 1;
+	const perPage = Number(req.params.rowsPerPage) || 10;
+	const offset = perPage * pageUrl - perPage;
+
+	const result = await Items.find({}, null, { limit: perPage, skip: offset })
+		.populate('brand')
+		.exec();
+
+	const total = await Items.countDocuments();
+
+	res.send({
+		total,
+		data: result,
+		current_page: pageUrl,
+		total_pages: Math.ceil(total / perPage),
+	});
 });
 
 module.exports = router;

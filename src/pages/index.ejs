@@ -16,9 +16,10 @@
 	<body>
 		<div id="app">
 			<%- include('includes/header') -%> <% switch (location) { case 'index' : %> <%-
-			include('index_page') -%> <% break; case 'faq' : %> <%- include('faq_page') -%> <% break; case
-			'products' : %> <%- include('products_page') -%> <% break; case 'customer_service' : %> <%-
-			include('customer_service_page') -%> <% break; } %> <%- include('includes/footer') -%>
+			include('index_page') -%> <% break; case 'about-us' : %> <%- include('about_us_page') -%> <%
+			break; case 'products' : %> <%- include('products_page') -%> <% break; case 'support' : %> <%-
+			include('support_page') -%> <% break; case 'product' : %> <%- include('product_page') -%> <%
+			break; } %><%- include('includes/footer') -%>
 		</div>
 		<script
 			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
