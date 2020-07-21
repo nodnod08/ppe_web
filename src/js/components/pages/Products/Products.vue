@@ -20,6 +20,7 @@
           <label class="form-check-label" for="inlineRadio1">{{ cat.category_name }}</label>
         </div>
         <br />
+        <br />
         <small>
           <b>Choose Brand</b>
         </small>
@@ -35,6 +36,36 @@
           />
           <label class="form-check-label logos" for="inlineRadio1">
             <img :src="'/assets/images/' + br.brand_name + '.png'" alt="Card image cap" />
+          </label>
+        </div>
+        <br />
+        <br />
+        <small>Is Colored</small>
+        <br />
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            v-model="isColored"
+            id="inlineRadio1"
+            v-on:change="immediateSearch()"
+            v-bind:value="true"
+          />
+          <label class="form-check-label logos" for="inlineRadio1">
+            <b>YES</b>
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            v-model="isColored"
+            id="inlineRadio1"
+            v-on:change="immediateSearch()"
+            v-bind:value="false"
+          />
+          <label class="form-check-label logos" for="inlineRadio1">
+            <b>NO</b>
           </label>
         </div>
       </div>
@@ -56,6 +87,10 @@
             <span
               :class="product.stocks == 0 ? 'badge badge-warning' : 'badge badge-success'"
             >{{ product.stocks }} on stocks</span>
+            <br />
+            <small
+              v-if="product.hasOwnProperty('price')"
+            ><b>&#8369; {{ product.price }}</b></small>
             <br />
             <br />
             <div class="d-flex justify-content-between align-items-center">
@@ -147,11 +182,11 @@ export default {
       this.category = this.products.query.hasOwnProperty("category")
         ? this.products.query.category
         : null;
-      this.brand = this.products.query.hasOwnProperty("brand")
-        ? this.products.query.brand
+      this.brand = this.products.query.hasOwnProperty("brand_name")
+        ? this.products.query.brand_name
         : null;
-      this.isColored = this.products.query.hasOwnProperty("isColored")
-        ? this.products.query.isColored
+      this.isColored = this.products.query.hasOwnProperty("is_colored")
+        ? this.products.query.is_colored
         : null;
     },
     getCategories: function() {
@@ -170,11 +205,12 @@ export default {
         });
     },
     immediateSearch: async function() {
-      let brand1 = (await this.brand) != null ? `&brand=${this.brand}` : ``;
+      let brand1 =
+        (await this.brand) != null ? `&brand_name=${this.brand}` : ``;
       let category1 =
         (await this.category) != null ? `&category=${this.category}` : ``;
       let isColored1 =
-        (await this.isColored) != null ? `&isColored=${this.isColored}` : ``;
+        (await this.isColored) != null ? `&is_colored=${this.isColored}` : ``;
       // setTimeout(() => {
       window.location.href = `/products?page=1${category1}${brand1}${isColored1}`;
       // }, 1000);

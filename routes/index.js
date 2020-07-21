@@ -36,20 +36,35 @@ router.get('/products', routeParse, renderer, async function(req, res) {
 	const page = Number(query.page);
 	const perPage = query.perPage || 9;
 	const offset = perPage * page - perPage;
+	let searches = {};
+	let valid = ['category', 'brand_name', 'is_colored'];
+	Object.keys(query).map((field) => {
+		if (valid.includes(field)) {
+			searches[field] = field == 'is_colorred' ? Boolean(query[field]) : query[field];
+		}
+	});
 
-	const result = await Items.find({}, null, { limit: perPage, skip: offset })
-		.populate('brand')
+	let result = await Items.find({}, null, { limit: perPage, skip: offset })
+		.populate({
+			path: 'brand',
+			match: { ...searches },
+		})
 		.exec();
 
-	const total = await Items.countDocuments();
+	result = result.filter(function(e) {
+		return e.brand != null;
+	});
+
+	// const total = await Items.countDocuments();
 	res.showView(
 		null,
 		JSON.stringify({
-			total,
+			total: result.length,
 			data: result,
 			query,
 			current_page: page,
-			total_pages: Math.ceil(total / perPage),
+			total_pages: Math.ceil(result.length / perPage),
+			// total_pages: Math.ceil(total / perPage),
 		})
 	);
 });
@@ -60,10 +75,19 @@ router.get('/product/:id', routeParse, renderer, async function(req, res) {
 	const result = await Items.findOne({ _id: id })
 		.populate('brand')
 		.exec();
+	const tot = await Items.countDocuments();
+	const all = tot - 4;
+	const randoms = await Items.find({ _id: { $ne: id } }, null, {
+		limit: 4,
+		skip: Math.random(Math.random() * (all - 1 + 1) + 1),
+	})
+		.populate('brand')
+		.exec();
+
 	res.showView(
 		null,
 		JSON.stringify({
-			data: result,
+			data: { result, randoms },
 		})
 	);
 });

@@ -23,7 +23,7 @@ app.use(function(req, res, next) {
 	);
 	next();
 });
-app.use(bodyParser.json({ limit: '2048mb' }));
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
 // serving external files

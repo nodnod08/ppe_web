@@ -4,31 +4,81 @@
     <br />
     <br />
     <br />
-    <div v-if="product.data != null && typeof product.data != 'undefined'" class="row">
+    <button v-on:click="returnUrl" class="btn btn-sm btn-outline-secondary">
+      <i class="fa fa-arrow-circle-left"></i> Go Back
+    </button>
+    <br />
+    <br />
+    <div v-if="product != null && typeof product != 'undefined'" class="row">
       <div class="col-lg-5">
-        <img style="width: 300px; height: 300px" :src="'/storage/' + product.data.photo_name" alt />
+        <div class="card mb-4 box-shadow">
+          <img class="card-img-top" :src="'/storage/' + product.photo_name" alt="Card image cap" />
+        </div>
       </div>
       <div class="col-lg-7">
         <p>
           <b>BRAND</b>
-          {{ product.data.brand.brand_name }}
+          {{ product.brand.brand_name }}
         </p>
         <p>
           <b>ITEM NAME</b>
-          {{ product.data.item_name }}
+          {{ product.item_name }}
         </p>
         <p>
           <span
-            :class="product.data.stocks == 0 ? 'badge badge-warning' : 'badge badge-success'"
-          >{{ product.data.stocks }} on stocks</span>
+            :class="product.stocks == 0 ? 'badge badge-warning' : 'badge badge-success'"
+          >{{ product.stocks }} on stocks</span>
         </p>
         <br />
-        <div class="content" v-html="product.data.content"></div>
+        <div class="content" v-html="product.content"></div>
       </div>
     </div>
     <div v-else class="row">
       <div class="text-center col-lg-12">
         <h4>Item not found</h4>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h4>You may also want this</h4>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+      <div v-for="(product, i) in randoms" v-bind:key="i" class="col-lg-3 col-md-3">
+        <div class="card mb-4 box-shadow">
+          <img class="card-img-top" :src="'/storage/' + product.photo_name" alt="Card image cap" />
+          <div class="card-body">
+            <small class="card-title">BRAND: {{ product.brand.brand_name }}</small>
+            <br />
+            <small class="card-text">
+              ITEM NAME:
+              {{ ' ' + product.item_name }}
+            </small>
+            <br />
+            <span
+              :class="product.stocks == 0 ? 'badge badge-warning' : 'badge badge-success'"
+            >{{ product.stocks }} on stocks</span>
+            <br />
+            <small v-if="product.hasOwnProperty('price')">
+              <b>&#8369; {{ product.price }}</b>
+            </small>
+            <br />
+            <br />
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <a :href="'/product/' + product._id">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <i class="fa fa-info-circle"></i> View Full Details
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <br />
@@ -48,17 +98,52 @@ export default {
   },
   computed: {
     product: function() {
-      return JSON.parse(this.data);
+      let result = JSON.parse(this.data);
+      return result.data.result;
+    },
+    randoms: function() {
+      let randoms = JSON.parse(this.data);
+      return randoms.data.randoms;
     }
   },
-  created() {}
+  created() {
+    console.log(this.randoms);
+  },
+  methods: {
+    returnUrl: function() {
+      history.back();
+    }
+  }
 };
 </script>
 
 <style>
 .content {
+  border: 0.5px solid #000;
   background: #f5f5f5;
+  height: 350px;
   padding: 2%;
   border-radius: 1%;
+  overflow-y: scroll;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>
