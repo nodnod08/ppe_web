@@ -7,6 +7,7 @@ const _ = require('lodash');
 const multer = require('multer');
 const path = require('path');
 var fs = require('fs');
+const mongoose = require('mongoose');
 
 // MODELS
 const Item_Categories = require('../models/Item_Categories');
@@ -44,12 +45,45 @@ router.post('/update-create', async function(req, res) {
 	}).single('file');
 
 	upload(req, res, (err) => {
-		const category = JSON.parse(req.body.category);
+		const category = req.body.category;
 		const added_by = JSON.parse(req.body.added_by);
-		const brand = JSON.parse(req.body.brand);
+		const brand = req.body.brand;
 
 		if (req.body.type == 'update') {
 			const oldData = JSON.parse(req.body.old_data);
+			Users.findOne({ _id: added_by._id }).then((user_info) => {
+				// new_item.save().then((result) => {
+				// 	eval(category).updateOne({ _id: brand._id }, { $push: { items: result } }, async () => {
+				// 		let added = await Items.findOne({ _id: result._id })
+				// 			.populate('brand')
+				// 			.exec();
+
+				// 		res.send({
+				// 			result: 'success',
+				// 			message: 'Item added successfuly',
+				// 			added,
+				// 		});
+				// 	});
+				// });
+				let updater = {
+					item_name: req.body.item_name,
+					onModel: req.body.category,
+					brand: req.body.brand,
+					content: req.body.content,
+					stocks: req.body.stocks,
+					added_by: user_info,
+					photo_name: files[0] ? files[0] : 'default.png',
+				};
+				if (typeof req.body.price != 'undefined') {
+					updater.price = req.body.price;
+				}
+				Items.updateOne({ _id: oldData._id }, updater).then(() => {
+					res.send({
+						result: 'success',
+						message: 'Item has been updated',
+					});
+				});
+			});
 		} else {
 			Users.findOne({ _id: added_by._id }).then((user_info) => {
 				const new_item = new Items({
