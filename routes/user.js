@@ -9,7 +9,7 @@ const _ = require('lodash');
 // MODELS
 const Users = require('./../models/Users');
 
-router.post('/register-admin', async function(req, res) {
+router.post('/update-create', async function(req, res) {
 	const user_inital = {
 		username: req.body.username,
 		userType: 1,
@@ -17,7 +17,9 @@ router.post('/register-admin', async function(req, res) {
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		fullName: `${req.body.firstName} ${req.body.lastName}`,
+		added_by: req.body.added_by,
 	};
+
 	function password_hasher(password, callback) {
 		bcrypt.genSalt(10, function(err, salt) {
 			bcrypt.hash(password, salt, async function(err, hash) {
@@ -28,13 +30,26 @@ router.post('/register-admin', async function(req, res) {
 
 	password_hasher(req.body.password, (err, hash) => {
 		user_inital.password = hash;
-		const new_user = new Users(user_inital);
-		new_user.save().then((result) => {
-			res.send({
-				success: true,
-				message: 'Admin successfuly registered',
+		if (req.body.type == 'create') {
+			const new_user = new Users(user_inital);
+			new_user.save().then((result) => {
+				res.send({
+					result: 'success',
+					success: true,
+					added: result,
+					message: 'Admin successfuly registered',
+				});
 			});
-		});
+		} else {
+			delete user_inital.added_by;
+			Users.updateOne({ _id: req.body.old_user._id }, user_inital).then(() => {
+				res.send({
+					result: 'success',
+					success: true,
+					message: 'User has been updated',
+				});
+			});
+		}
 	});
 });
 
@@ -46,6 +61,7 @@ router.post('/register-user', function(req, res) {
 		firstName: req.body.first_name,
 		lastName: req.body.last_name,
 		fullName: `${req.body.first_name} ${req.body.last_name}`,
+		added_by: 'Via Registration',
 	};
 	function password_hasher(password, callback) {
 		bcrypt.genSalt(10, function(err, salt) {
@@ -139,6 +155,23 @@ router.post('/login-user', function(req, res, next) {
 router.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
+});
+
+router.get('/get-users/:page/:rowsPerPage', async function(req, res) {
+	const pageUrl = Number(req.params.page) || 1;
+	const perPage = Number(req.params.rowsPerPage) || 10;
+	const offset = perPage * pageUrl - perPage;
+
+	const result = await Users.find({}, null, { limit: perPage, skip: offset });
+
+	const total = await Users.countDocuments();
+
+	res.send({
+		total,
+		data: result,
+		current_page: pageUrl,
+		total_pages: Math.ceil(total / perPage),
+	});
 });
 
 module.exports = router;
