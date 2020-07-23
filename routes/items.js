@@ -52,19 +52,6 @@ router.post('/update-create', async function(req, res) {
 		if (req.body.type == 'update') {
 			const oldData = JSON.parse(req.body.old_data);
 			Users.findOne({ _id: added_by._id }).then((user_info) => {
-				// new_item.save().then((result) => {
-				// 	eval(category).updateOne({ _id: brand._id }, { $push: { items: result } }, async () => {
-				// 		let added = await Items.findOne({ _id: result._id })
-				// 			.populate('brand')
-				// 			.exec();
-
-				// 		res.send({
-				// 			result: 'success',
-				// 			message: 'Item added successfuly',
-				// 			added,
-				// 		});
-				// 	});
-				// });
 				let updater = {
 					item_name: req.body.item_name,
 					onModel: req.body.category,
@@ -72,10 +59,14 @@ router.post('/update-create', async function(req, res) {
 					content: req.body.content,
 					stocks: req.body.stocks,
 					added_by: user_info,
-					photo_name: files[0] ? files[0] : 'default.png',
+					photo_name: files[0] ? files[0] : oldData.photo_name,
 				};
 				if (typeof req.body.price != 'undefined') {
 					updater.price = req.body.price;
+				}
+				if (files[0]) {
+					var filePath = path.join(__dirname, '..', '/src', '/storage', `/${oldData.photo_name}`);
+					fs.unlinkSync(filePath);
 				}
 				Items.updateOne({ _id: oldData._id }, updater).then(() => {
 					res.send({

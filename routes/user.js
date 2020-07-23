@@ -174,4 +174,48 @@ router.get('/get-users/:page/:rowsPerPage', async function(req, res) {
 	});
 });
 
+router.post('/delete-user', async function(req, res) {
+	await Users.find({ _id: req.body.idToDelete }).deleteOne();
+
+	res.send({
+		success: true,
+		message: 'User has been deleted',
+	});
+});
+
+router.post('/change-pass', async function(req, res) {
+	Users.findOne({ _id: req.body.old_user._id, email: req.body.old_user.email }).then((result) => {
+		bcrypt.compare(req.body.opassword, result.password).then((response) => {
+			if (response) {
+				function password_hasher(password, callback) {
+					bcrypt.genSalt(10, function(err, salt) {
+						bcrypt.hash(password, salt, async function(err, hash) {
+							callback(err, hash);
+						});
+					});
+				}
+
+				password_hasher(req.body.npassword, (err, hash) => {
+					Users.updateOne(
+						{ _id: req.body.old_user._id, email: req.body.old_user.email },
+						{ password: hash }
+					).then(() => {
+						res.send({
+							result: 'success',
+							success: true,
+							message: 'User has been updated',
+						});
+					});
+				});
+			} else {
+				res.send({
+					success: false,
+					result: 'error',
+					message: 'Old password is incorrect',
+				});
+			}
+		});
+	});
+});
+
 module.exports = router;
