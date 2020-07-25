@@ -11,6 +11,7 @@ const axios = require('axios');
 //middlewares
 const routeParse = require('./../middleware/routeParser');
 const renderer = require('./../middleware/viewRenderer');
+const researcher = require('./../middleware/researcher');
 
 // MODELS
 const Item_Categories = require('../models/Item_Categories');
@@ -31,25 +32,38 @@ router.get('/', routeParse, renderer, async function(req, res) {
 // 	res.showView(null, null);
 // });
 
-router.get('/products', routeParse, renderer, async function(req, res) {
+router.get('/products', researcher, routeParse, renderer, async function(req, res) {
 	const query = req.query;
 	const page = Number(query.page);
 	const perPage = query.perPage || 9;
 	const offset = perPage * page - perPage;
 	let searches = {};
-	let valid = ['category', 'brand_name', 'is_colored'];
+	let valid = ['category', 'brand_name', 'is_colored', 'item_name'];
 	Object.keys(query).map((field) => {
 		if (valid.includes(field)) {
 			searches[field] = field == 'is_colorred' ? Boolean(query[field]) : query[field];
 		}
 	});
 
-	let result = await Items.find({}, null, { limit: perPage, skip: offset })
-		.populate({
-			path: 'brand',
-			match: { ...searches },
+	let result = [];
+
+	if (query.hasOwnProperty('item_name')) {
+		result = await Items.find({ item_name: query.item_name }, null, {
+			limit: perPage,
+			skip: offset,
 		})
-		.exec();
+			.populate({
+				path: 'brand',
+			})
+			.exec();
+	} else {
+		result = await Items.find({}, null, { limit: perPage, skip: offset })
+			.populate({
+				path: 'brand',
+				match: { ...searches },
+			})
+			.exec();
+	}
 
 	result = result.filter(function(e) {
 		return e.brand != null;
@@ -69,7 +83,7 @@ router.get('/products', routeParse, renderer, async function(req, res) {
 	);
 });
 
-router.get('/product/:id', routeParse, renderer, async function(req, res) {
+router.get('/product/:id', researcher, routeParse, renderer, async function(req, res) {
 	const id = req.params.id;
 
 	const result = await Items.findOne({ _id: id })
@@ -92,11 +106,11 @@ router.get('/product/:id', routeParse, renderer, async function(req, res) {
 	);
 });
 
-router.get('/about-us', routeParse, renderer, async function(req, res) {
+router.get('/about-us', researcher, routeParse, renderer, async function(req, res) {
 	res.showView(null, null);
 });
 
-router.get('/support', routeParse, renderer, async function(req, res) {
+router.get('/support', researcher, routeParse, renderer, async function(req, res) {
 	res.showView(null, null);
 });
 

@@ -12,6 +12,7 @@ const renderer = function(req, res, next) {
 					isAuthenticated: req.isAuthenticated(),
 					user_credentials: req.user,
 					data,
+					researcher: req.researcher,
 				});
 			}
 		} else {
@@ -20,6 +21,7 @@ const renderer = function(req, res, next) {
 				isAuthenticated: req.isAuthenticated(),
 				user_credentials: req.user,
 				data,
+				researcher: req.researcher,
 			});
 		}
 	};

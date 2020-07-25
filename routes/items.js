@@ -8,6 +8,7 @@ const multer = require('multer');
 const path = require('path');
 var fs = require('fs');
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 // MODELS
 const Item_Categories = require('../models/Item_Categories');
@@ -60,6 +61,7 @@ router.post('/update-create', async function(req, res) {
 					stocks: req.body.stocks,
 					added_by: user_info,
 					photo_name: files[0] ? files[0] : oldData.photo_name,
+					updated: moment().format('dddd, MMMM Do YYYY, h:mm:ss a'),
 				};
 				if (typeof req.body.price != 'undefined') {
 					updater.price = req.body.price;
@@ -85,6 +87,7 @@ router.post('/update-create', async function(req, res) {
 					added_by: user_info,
 					onModel: category,
 					brand: brand,
+					updated: moment().format('dddd, MMMM Do YYYY, h:mm:ss a'),
 				});
 				if (typeof req.body.price != 'undefined') {
 					new_item.price = req.body.price;
@@ -109,7 +112,7 @@ router.post('/update-create', async function(req, res) {
 
 router.get('/get-items/:page/:rowsPerPage', async function(req, res) {
 	const pageUrl = Number(req.params.page) || 1;
-	const perPage = Number(req.params.rowsPerPage) || 10;
+	const perPage = Number(req.params.rowsPerPage) || 8;
 	const offset = perPage * pageUrl - perPage;
 
 	const result = await Items.find({}, null, { limit: perPage, skip: offset })
@@ -139,7 +142,7 @@ router.post('/delete-item', async function(req, res) {
 	}
 
 	const pageUrl = Number(req.params.page) || 1;
-	const perPage = Number(req.params.rowsPerPage) || 10;
+	const perPage = Number(req.params.rowsPerPage) || 8;
 	const offset = perPage * pageUrl - perPage;
 
 	const result = await Items.find({}, null, { limit: perPage, skip: offset })
@@ -153,6 +156,14 @@ router.post('/delete-item', async function(req, res) {
 		data: result,
 		current_page: pageUrl,
 		total_pages: Math.ceil(total / perPage),
+	});
+});
+
+router.get('/get-all-items', async function(req, res) {
+	Items.find({}).then((result) => {
+		res.send({
+			data: result,
+		});
 	});
 });
 

@@ -233,16 +233,16 @@
           <img width="120px" height="150px" src="assets/images/clients_logo/marina.png" alt />
         </div>
         <div class="text-center col-lg-3 col-md-3 col-sm-6">
-          <img width="120px" height="150px" src="assets/images/clients_logo/amec.png" alt />
+          <img width="120px" height="140px" src="assets/images/clients_logo/amec.png" alt />
         </div>
         <div class="text-center col-lg-3 col-md-3 col-sm-6">
-          <img width="120px" height="150px" src="assets/images/clients_logo/chinabank.png" alt />
+          <img width="120px" height="140px" src="assets/images/clients_logo/chinabank.png" alt />
         </div>
         <div class="text-center col-lg-3 col-md-3 col-sm-6">
           <img
             style="margin-top: 30px"
             width="120px"
-            height="90px"
+            height="80px"
             src="assets/images/clients_logo/magenic.jpg"
             alt
           />
@@ -259,13 +259,13 @@
         class="row mt-5 bottom-clients"
       >
         <div class="text-center col-lg-3 col-md-3 col-sm-6">
-          <img width="120px" height="120px" src="assets/images/clients_logo/powercity.png" alt />
+          <img width="120px" height="90px" src="assets/images/clients_logo/powercity.png" alt />
         </div>
         <div class="text-center col-lg-3 col-md-3 col-sm-6">
           <img
             style="margin-top: 50px"
             width="120px"
-            height="40px"
+            height="30px"
             src="assets/images/clients_logo/robocash.png"
             alt
           />

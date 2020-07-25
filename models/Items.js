@@ -18,6 +18,7 @@ const ItemsSchema = new mongoose.Schema({
 	stocks: { type: String, required: true, default: 1 },
 	added_by: { type: mongoose.Schema.ObjectId, ref: 'Users' },
 	added_date: { type: Date, required: true, default: Date.now },
+	updated: { type: String, default: Date.now },
 });
 
 module.exports = Items = mongoose.model('Items', ItemsSchema);

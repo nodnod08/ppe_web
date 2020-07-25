@@ -13,21 +13,6 @@
           <li>Brand New Compatible and Remanufactured (Toner Cartridge / Ink Cartridge)</li>
           <li></li>
         </ul>
-        <h4>We Provide</h4>
-        <p>
-          <b>Preventive Maintenance Agreement which includes the following:</b>
-        </p>
-        <ul class="list-unstyled">
-          <li>General cleaning of printers</li>
-          <li>Printer repair and maintenance</li>
-          <li>System testing and diagnostic</li>
-          <li>Replacement of defective parts</li>
-          <li>Printer Rentals / Fix Monthly (Single Function / Multifunction)</li>
-          <li>Free Printer Use (Single Function / Multifunction)</li>
-          <li>Comprehensive Maintenance Agreement for Existing Printers</li>
-          <li>Cartridge Procurement (Monochrome / Color LaserJet)</li>
-          <li>Per Page Charging (Delayed Billing, Monochrome, Color LaserJet)</li>
-        </ul>
       </div>
     </div>
     <br />
@@ -67,7 +52,7 @@ export default {
   data() {
     return {};
   },
-  created() {}
+  created() {},
 };
 </script>
 
