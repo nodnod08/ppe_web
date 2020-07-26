@@ -11,4 +11,9 @@ export const store = new Vuex.Store({
 			state[payload.property] = payload.data;
 		},
 	},
+	actions: {
+		setConfig({ commit }, payload) {
+			commit('setConfig', payload);
+		},
+	},
 });

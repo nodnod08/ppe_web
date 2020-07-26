@@ -64,7 +64,7 @@ router.post('/update-create', async function(req, res) {
 					updated: moment().format('dddd, MMMM Do YYYY, h:mm:ss a'),
 				};
 				if (typeof req.body.price != 'undefined') {
-					updater.price = req.body.price;
+					updater.price = req.body.price.replace(',.', "");
 				}
 				if (files[0]) {
 					var filePath = path.join(__dirname, '..', '/src', '/storage', `/${oldData.photo_name}`);

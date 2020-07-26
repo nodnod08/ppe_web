@@ -14,8 +14,8 @@
 		<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
 	</head>
 	<body>
-		<%= location %>
 		<div id="app">
+			<Loader></Loader>
 			<%- include('includes/header') -%> <% switch (location) { case 'index' : %> <%-
 			include('index_page') -%> <% break; case 'about-us' : %> <%- include('about_us_page') -%> <%
 			break; case 'products' : %> <%- include('products_page') -%> <% break; case 'support' : %> <%-

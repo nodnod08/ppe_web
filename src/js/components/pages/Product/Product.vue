@@ -11,18 +11,22 @@
     <br />
     <div v-if="product != null && typeof product != 'undefined'" class="row">
       <div class="col-lg-5">
-        <div class="card mb-4 box-shadow">
+        <div class="card mb-4 gradient-border box-shadow" id="box">
           <img class="card-img-top" :src="'/storage/' + product.photo_name" alt="Card image cap" />
         </div>
       </div>
       <div class="col-lg-7">
         <p>
-          <b>BRAND</b>
+          <b>BRAND:</b>
           {{ product.brand.brand_name }}
         </p>
         <p>
-          <b>ITEM NAME</b>
+          <b>ITEM NAME:</b>
           {{ product.item_name }}
+        </p>
+        <p v-if="product.hasOwnProperty('price')">
+          <b>ITEM PRICE:</b>
+          &#8369;{{ product.price.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") }}
         </p>
         <p>
           <span
@@ -93,27 +97,27 @@ export default {
   props: ["data"],
   data() {
     return {
-      parser: new DOMParser()
+      parser: new DOMParser(),
     };
   },
   computed: {
-    product: function() {
+    product: function () {
       let result = JSON.parse(this.data);
       return result.data.result;
     },
-    randoms: function() {
+    randoms: function () {
       let randoms = JSON.parse(this.data);
       return randoms.data.randoms;
-    }
+    },
   },
   created() {
     console.log(this.randoms);
   },
   methods: {
-    returnUrl: function() {
+    returnUrl: function () {
       history.back();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -145,5 +149,56 @@ export default {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+#box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: "Raleway";
+  font-size: 2.5rem;
+  padding: 5px;
+}
+.gradient-border {
+  --borderWidth: 3px;
+  background: none;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+.gradient-border:after {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes animatedgradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 </style>

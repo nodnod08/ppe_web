@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const nodemailer = require('nodemailer');
 
 // MODELS
 const Users = require('./../models/Users');
@@ -216,6 +217,31 @@ router.post('/change-pass', async function(req, res) {
 			}
 		});
 	});
+});
+
+router.post('/support-email', async function(req, res) {
+	let transporter = nodemailer.createTransport({
+		host: 'smtp.gmail.com',
+		port: process.env.MAIL_PORT,
+		secure: process.env.IS_SECURE == 'true' ? true : false,
+		auth: {
+			user: process.env.MAILER_EMAIL,
+			pass: process.env.MAILER_PASS,
+		},
+	});
+	let message =
+		req.body.message + `\n\nRegards,\n${req.body.name}\n${req.body.email}`;
+	let info = await transporter.sendMail({
+		from: `${req.body.name} <${req.body.email}>`, // sender address
+		to: 'dondomie12345@gmail.com', // list of receivers
+		subject: 'Email From Support And Help Page', // Subject line
+		html: message,
+	});
+
+		res.send({
+			success: true,
+			message: 'Your message has been sent. Thank you',
+		});
 });
 
 module.exports = router;
