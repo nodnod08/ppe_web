@@ -47,6 +47,7 @@
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-node-resolve": "^5.2.0",
 		"rollup-plugin-uglify": "^6.0.4",
+		"sweetalert2": "^9.17.1",
 		"vue": "^2.6.11",
 		"vue-fragment": "^1.5.1",
 		"vue-scroll-reveal": "^1.0.11",

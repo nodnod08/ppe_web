@@ -299,7 +299,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    this.loader();
+  },
+  methods: {
+    loader: function () {
+      this.$store.dispatch("loader");
+    },
+  },
+};
 </script>
 
 <style></style>

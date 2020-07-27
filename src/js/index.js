@@ -26,6 +26,7 @@ import Search from './components/modules/Search/Search.vue';
 // components modules
 import Pagination from './components/modules/Pagination/Pagination.vue';
 import Loader from './components/modules/Loader/Loader.vue';
+import Subscribe from './components/modules/Subscribe/Subscribe.vue';
 
 // renders
 Vue.component('index-component', Index);
@@ -38,6 +39,7 @@ Vue.component('support-component', Support);
 Vue.component('search-component', Search);
 Vue.component('Paginate', Pagination);
 Vue.component('Loader', Loader);
+Vue.component('subscribe-component', Subscribe);
 
 new Vue({
 	el: '#app',

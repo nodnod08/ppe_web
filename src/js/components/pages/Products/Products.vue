@@ -184,6 +184,9 @@ export default {
     this.getBrands();
     this.initialize();
   },
+  mounted() {
+    this.loader();
+  },
   watch: {
     category: function (newVal, oldVal) {
       this.initially = false;
@@ -227,6 +230,9 @@ export default {
             return a.brand_name.localeCompare(b.brand_name);
           });
         });
+    },
+    loader: function () {
+      this.$store.dispatch("loader");
     },
     immediateSearch: async function () {
       let brand1 =

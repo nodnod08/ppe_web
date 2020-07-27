@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 
 // MODELS
 const Users = require('./../models/Users');
+const Subscription = require('./../models/Subscription');
 
 router.post('/update-create', async function(req, res) {
 	const user_inital = {
@@ -229,19 +230,81 @@ router.post('/support-email', async function(req, res) {
 			pass: process.env.MAILER_PASS,
 		},
 	});
-	let message =
-		req.body.message + `\n\nRegards,\n${req.body.name}\n${req.body.email}`;
-	let info = await transporter.sendMail({
-		from: `${req.body.name} <${req.body.email}>`, // sender address
-		to: 'dondomie12345@gmail.com', // list of receivers
-		subject: 'Email From Support And Help Page', // Subject line
-		html: message,
-	});
+	let message = req.body.message + `\n\n\nRegards,\n${req.body.name}\n${req.body.email}`;
+	if (req.body.comany != '') {
+		message = message + `\nFrom Company: ${req.body.company}`;
+	}
+	let info = await transporter.sendMail(
+		{
+			from: `${req.body.name} <${req.body.email}>`, // sender address
+			to: process.env.COMPANY_EMAIL, // list of receivers
+			subject: 'Email From Support And Help Page', // Subject line
+			text: message,
+		},
+		(error, result) => {
+			if (error) {
+				res.send({
+					success: false,
+					type: 'error',
+					message: 'Your message did not send, try again',
+				});
+			} else {
+				res.send({
+					success: true,
+					type: 'success',
+					message: 'Your message has been sent, we will respond as fast as we can Thank you',
+				});
+			}
+		}
+	);
+});
 
+router.post('/request-email', async function(req, res) {
+	let transporter = nodemailer.createTransport({
+		host: 'smtp.gmail.com',
+		port: process.env.MAIL_PORT,
+		secure: process.env.IS_SECURE == 'true' ? true : false,
+		auth: {
+			user: process.env.MAILER_EMAIL,
+			pass: process.env.MAILER_PASS,
+		},
+	});
+	let message = `Hello,\n\nThis email is from your website which has a request for ${req.body.type}\n\nThe Key Number is "${req.body.key_number}"\n\nThank you.`;
+	let info = await transporter.sendMail(
+		{
+			from: `${req.body.name} <${req.body.email}>`, // sender address
+			to: process.env.COMPANY_EMAIL, // list of receivers
+			subject: 'Email From Warranties And Details Of Support Page', // Subject line
+			text: message,
+		},
+		(error, result) => {
+			if (error) {
+				res.send({
+					success: false,
+					type: 'error',
+					message: 'Your request did not send, try again',
+				});
+			} else {
+				res.send({
+					success: true,
+					type: 'success',
+					message: 'Your request has been sent, we will respond as fast as we can. Thank you',
+				});
+			}
+		}
+	);
+});
+
+router.post('/subscribe-email', async function(req, res) {
+	Subscription.create({
+		email: req.body.email
+	}).then(() => {
 		res.send({
 			success: true,
-			message: 'Your message has been sent. Thank you',
+			type: 'success',
+			message: 'Thank you for subscribing. We will update you everytime our store has a promotions, sales and updates.',
 		});
-});
+	})
+})
 
 module.exports = router;

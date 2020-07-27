@@ -36,7 +36,7 @@
 					</div>
 					<div class="form-group">
 						<label for="exampleInputEmail1">Your Company (Optional)</label>
-						<input type="text" class="form-control" />
+						<input type="text" v-model="company" class="form-control" />
 					</div>
 					<div class="form-group">
 						<label for="exampleFormControlTextarea1">Message</label>
@@ -101,6 +101,28 @@
 							Please provide a valid PRODUCT ID / SERIAL NUMBER / P.O NUMBER / SALES ORDER NUMBER
 						</div>
 					</div>
+					<div class="form-group">
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								class="custom-control-input"
+								type="radio"
+								v-model="type"
+								id="inlineRadio"
+								v-bind:value="'WARRANTY VALIDITY'"
+							/>
+							<label :class="'custom-control-label'" for="inlineRadio">WARRANTY VALIDITY</label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								class="custom-control-input"
+								type="radio"
+								v-model="type"
+								id="inlineRadio1"
+								v-bind:value="'PRODUCT STATUS'"
+							/>
+							<label :class="'custom-control-label'" for="inlineRadio1">PRODUCT STATUS</label>
+						</div>
+					</div>
 					<button type="submit" v-on:click="submitKey" class="btn btn-sm btn-outline-primary">
 						Submit
 					</button>
@@ -115,8 +137,9 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import { required, email, sameAs, minLength, alpha, helpers } from 'vuelidate/lib/validators';
-import axios from 'axios'
+import axios from 'axios';
 export default {
 	props: ['data'],
 	data() {
@@ -126,6 +149,7 @@ export default {
 			company: '',
 			key_number: '',
 			message: '',
+			type: 'WARRANTY VALIDITY',
 		};
 	},
 	validations: {
@@ -139,13 +163,19 @@ export default {
 		},
 		message: {
 			required,
-			isNameValid: helpers.regex('isNameValid', /^[a-z0-9_ ]*$/i),
+			isNameValid: helpers.regex('isNameValid', /^[a-z0-9_ \n\"\\.,*$!?'%()@_=+-[\]\/]*$/i),
 		},
 		key_number: {
 			required,
 		},
 	},
+	mounted() {
+		this.loader();
+	},
 	methods: {
+		loader: function() {
+			this.$store.dispatch('loader');
+		},
 		submitForm: function() {
 			this.$v.name.$touch();
 			this.$v.email.$touch();
@@ -157,23 +187,33 @@ export default {
 						email: this.email,
 						name: this.name,
 						message: this.message,
+						company: this.company,
 					})
 					.then((res) => {
-						console.log(res);
-						this.$store.dispatch('setConfig', { property: 'loading', data: false });
+						this.$store.dispatch('setConfig', {
+							property: 'loading',
+							data: false,
+						});
+						Swal.fire(res.data.success ? 'Email Sent' : 'Error', res.data.message, res.data.type);
 					});
 			}
 		},
 		submitKey: function() {
 			this.$v.key_number.$touch();
 			if (!this.$v.key_number.$invalid) {
-				// axios.post('/api-user/register-user', {
-				// 	email: this.your_email,
-				// 	username: this.your_email,
-				// 	first_name: this.first_name,
-				// 	last_name: this.last_name,
-				// 	password: this.password,
-				// });
+				this.$store.dispatch('setConfig', { property: 'loading', data: true });
+				axios
+					.post('/api-user/request-email', {
+						key_number: this.key_number,
+						type: this.type,
+					})
+					.then((res) => {
+						this.$store.dispatch('setConfig', {
+							property: 'loading',
+							data: false,
+						});
+						Swal.fire(res.data.success ? 'Request Sent' : 'Error', res.data.message, res.data.type);
+					});
 			}
 		},
 	},

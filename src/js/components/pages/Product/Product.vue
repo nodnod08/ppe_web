@@ -110,12 +110,15 @@ export default {
       return randoms.data.randoms;
     },
   },
-  created() {
-    console.log(this.randoms);
+  mounted() {
+    this.loader();
   },
   methods: {
     returnUrl: function () {
       history.back();
+    },
+    loader: function () {
+      this.$store.dispatch("loader");
     },
   },
 };
