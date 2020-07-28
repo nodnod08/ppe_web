@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "nodemon index.js",
+		"build": "webpack --config=webpack.config.prod.js",
 		"watch": "webpack --mode=development --watch --progress --info-verbosity verbose"
 	},
 	"nodemonConfig": {
