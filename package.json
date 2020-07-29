@@ -4,10 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node index.js",
-		"dev": "nodemon index.js",
-		"build": "webpack --config=webpack.config.prod.js",
-		"watch": "webpack --mode=development --watch --progress --info-verbosity verbose"
+		"start": "node index.js"
 	},
 	"nodemonConfig": {
 		"ignore": [
