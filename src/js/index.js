@@ -21,12 +21,13 @@ import Product from './components/pages/Product/Product.vue';
 import Products from './components/pages/Products/Products.vue';
 import About from './components/pages/About/About.vue';
 import Support from './components/pages/Support/Support.vue';
-import Search from './components/modules/Search/Search.vue';
+import Terms from './components/pages/Terms/Terms.vue';
 
 // components modules
 import Pagination from './components/modules/Pagination/Pagination.vue';
 import Loader from './components/modules/Loader/Loader.vue';
 import Subscribe from './components/modules/Subscribe/Subscribe.vue';
+import Search from './components/modules/Search/Search.vue';
 
 // renders
 Vue.component('index-component', Index);
@@ -36,6 +37,8 @@ Vue.component('products-component', Products);
 Vue.component('product-component', Product);
 Vue.component('about-us-component', About);
 Vue.component('support-component', Support);
+Vue.component('terms-component', Terms);
+
 Vue.component('search-component', Search);
 Vue.component('Paginate', Pagination);
 Vue.component('Loader', Loader);
