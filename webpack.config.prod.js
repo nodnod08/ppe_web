@@ -8,7 +8,6 @@ const { getAllfiles } = require('./config/list_all_files');
 
 module.exports = {
 	mode: 'production',
-	devtool: 'source-map',
 	entry: { index: './src/js/index.js' },
 	output: {
 		filename: '[name].js',
