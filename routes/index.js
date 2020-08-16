@@ -114,4 +114,8 @@ router.get('/support', researcher, routeParse, renderer, async function(req, res
 	res.showView(null, null);
 });
 
+router.get('/terms-and-conditions', researcher, routeParse, renderer, async function(req, res) {
+	res.showView(null, null);
+});
+
 module.exports = router;
