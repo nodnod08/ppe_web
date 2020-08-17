@@ -37,6 +37,32 @@
 					</li>
 				</ul>
 				<search-component></search-component>
+				<ul class="navbar-nav ml-auto">
+					<% if (isAuthenticated) { %>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Hi <%= user_credentials.firstName %>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Settings</a>
+							<a class="dropdown-item" href="#">My Account</a>
+							<a class="dropdown-item" href="#">My Orders</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="/api-user/logout">Logout</a>
+						</div>
+					</li>
+					<% } else { %>
+						<li <% if (location == 'login') { %> class="nav-item active" <% } else { %> class="nav-item"
+							<%}  %>>
+							<a class="nav-link" href="/login"><small>LOGIN</small></a>
+						</li>
+						<li <% if (location == 'register') { %> class="nav-item active" <% } else { %> class="nav-item"
+							<%}  %>>
+							<a class="nav-link" href="/register"><small>REGISTER</small></a>
+						</li>
+					<%}  %>
+				</ul>
 			</div>
 		</div>
 	</nav>

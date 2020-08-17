@@ -77,7 +77,18 @@ router.post('/register-user', function(req, res) {
 		user_inital.password = hash;
 		const new_user = new Users(user_inital);
 		new_user.save().then((result) => {
-			passport.authenticate('local')(req, res, function() {});
+			req.login(new_user, function(err) {
+				if (err) {
+					res.send({
+						success: false,
+						message: err.message,
+					});
+				} else {
+					res.send({
+						success: true,
+					});
+				}
+			});
 		});
 	});
 });
@@ -297,14 +308,15 @@ router.post('/request-email', async function(req, res) {
 
 router.post('/subscribe-email', async function(req, res) {
 	Subscription.create({
-		email: req.body.email
+		email: req.body.email,
 	}).then(() => {
 		res.send({
 			success: true,
 			type: 'success',
-			message: 'Thank you for subscribing. We will update you everytime our store has a promotions, sales and updates.',
+			message:
+				'Thank you for subscribing. We will update you everytime our store has a promotions, sales and updates.',
 		});
-	})
-})
+	});
+});
 
 module.exports = router;

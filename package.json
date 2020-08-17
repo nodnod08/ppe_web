@@ -4,7 +4,10 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node index.js"
+		"start": "node index.js",
+		"dev": "nodemon index.js",
+		"build": "webpack --config=webpack.config.prod.js",
+		"watch": "webpack --mode=development --watch --progress --info-verbosity verbose"
 	},
 	"nodemonConfig": {
 		"ignore": [
@@ -41,6 +44,7 @@
 		"nodemailer": "^6.4.10",
 		"nodemon": "^2.0.4",
 		"passport": "^0.4.1",
+		"passport-google-oauth20": "^2.0.0",
 		"passport-local": "^1.0.0",
 		"rollup-plugin-babel": "^4.4.0",
 		"rollup-plugin-commonjs": "^10.1.0",

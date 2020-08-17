@@ -7,6 +7,7 @@ const _ = require('lodash');
 const path = require('path');
 const VIEWS = path.join(__dirname, '..', 'src', 'pages');
 const axios = require('axios');
+const passport = require('passport');
 
 //middlewares
 const routeParse = require('./../middleware/routeParser');
@@ -24,13 +25,39 @@ router.get('/', routeParse, renderer, async function(req, res) {
 	res.showView(null, null);
 });
 
-// router.get('/login', routeParse, renderer, async function(req, res) {
-// 	res.showView(null, null);
-// });
+router.get('/login', routeParse, renderer, async function(req, res) {
+	res.showView(null, null);
+});
 
-// router.get('/register', routeParse, renderer, async function(req, res) {
-// 	res.showView(null, null);
-// });
+router.get('/register', routeParse, renderer, async function(req, res) {
+	res.showView(null, null);
+});
+
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// router.get(
+// 	'/auth/google/redirect',
+// 	passport.authenticate('google', { failureRedirect: '/login' }),
+// 	function(req, res) {
+// 		// Successful authentication, redirect home.
+// 		res.redirect('/');
+// 	}
+// );
+router.get('/auth/google/redirect', function(req, res, next) {
+	passport.authenticate('google', function(err, user, info) {
+		if (!user) {
+			res.redirect('/login');
+		} else {
+			req.login(user, function(err) {
+				if (err) {
+					res.redirect('/login');
+				} else {
+					res.redirect('/');
+				}
+			});
+		}
+	})(req, res, next);
+});
 
 router.get('/products', researcher, routeParse, renderer, async function(req, res) {
 	const query = req.query;

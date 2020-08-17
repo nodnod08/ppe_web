@@ -9,7 +9,7 @@
 					<h4 class="mt-3 text-center">Login to your Account</h4>
 					<p class="text-center">We protect your credentials</p>
 					<p>
-						<a href class="btn btn-block btn-google">
+						<a href="/auth/google" class="btn btn-block btn-google">
 							<i class="fa fa-google"></i> Login via Google
 						</a>
 						<a href class="btn btn-block btn-facebook">
@@ -53,8 +53,16 @@
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary btn-block">Login</button>
 						</div>
-						<div v-if="message" class="alert alert-danger" role="alert">
-							This is a danger alert—check it out!
+						<div
+							v-if="message != ''"
+							class="alert alert-danger alert-dismissible fade show"
+							role="alert"
+						>
+							<strong>Ooopps</strong>
+							{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
 						</div>
 						<!-- form-group// -->
 						<p class="text-center">
@@ -103,12 +111,24 @@ export default {
 						password: this.password,
 					})
 					.then((result) => {
-						this.$store.commit('setConfig', { property: 'loading', data: false });
+						console.log(result);
+						this.$store.commit('setConfig', {
+							property: 'loading',
+							data: false,
+						});
 						if (result.data.success) {
+							this.message = '';
+							this.$store.commit('setConfig', {
+								property: 'loading',
+								data: false,
+							});
 							window.location = '/';
 						} else {
+							this.message = result.data.message;
 						}
 					});
+			} else {
+				this.$store.commit('setConfig', { property: 'loading', data: false });
 			}
 		},
 	},

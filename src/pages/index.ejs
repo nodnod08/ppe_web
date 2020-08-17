@@ -21,8 +21,9 @@
 			include('index_page') -%> <% break; case 'about-us' : %> <%- include('about_us_page') -%> <%
 			break; case 'products' : %> <%- include('products_page') -%> <% break; case 'support' : %> <%-
 			include('support_page') -%> <% break; case 'product' : %> <%- include('product_page') -%> <%
-			break; case 'terms-and-conditions' : %> <%- include('terms_of_use') -%> <% break; } %> <%-
-			include('includes/footer') -%>
+			break; case 'terms-and-conditions' : %> <%- include('terms_of_use') -%> <% break; case 'login'
+			: %> <%- include('login_page') -%> <% break; case 'register' : %> <%- include('register_page')
+			-%> <% break; } %> <%- include('includes/footer') -%>
 		</div>
 		<script
 			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
