@@ -16,10 +16,17 @@ export const store = new Vuex.Store({
 				state.loading = false;
 			}, 1500);
 		},
+		modifyCart(state, payload) {
+			state.cart.user = payload.user;
+			state.cart.items = payload.items;
+		},
 	},
 	actions: {
 		setConfig({ commit }, payload) {
 			commit('setConfig', payload);
+		},
+		modifyCart({ commit }, payload) {
+			commit('modifyCart', payload);
 		},
 		loader({ commit }) {
 			commit('loader');

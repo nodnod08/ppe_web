@@ -9,6 +9,7 @@ const path = require('path');
 var fs = require('fs');
 const mongoose = require('mongoose');
 const moment = require('moment');
+const getmac = require('getmac');
 
 // MODELS
 const Item_Categories = require('../models/Item_Categories');
@@ -64,7 +65,7 @@ router.post('/update-create', async function(req, res) {
 					updated: moment().format('dddd, MMMM Do YYYY, h:mm:ss a'),
 				};
 				if (typeof req.body.price != 'undefined') {
-					updater.price = req.body.price.replace(',.', "");
+					updater.price = req.body.price.replace(',.', '');
 				}
 				if (files[0]) {
 					var filePath = path.join(__dirname, '..', '/src', '/storage', `/${oldData.photo_name}`);
@@ -165,6 +166,67 @@ router.get('/get-all-items', async function(req, res) {
 			data: result,
 		});
 	});
+});
+
+router.post('/add-to-cart', async function(req, res) {
+	if (req.isAuthenticated()) {
+		let product = req.body.product;
+		let current_user_products =
+			typeof req.cookies[`user_${req.user._id}`] != 'undefined'
+				? req.cookies[`user_${req.user._id}`]
+				: [];
+		current_user_products.push(product);
+
+		res.cookie(`user_${req.user._id}`, JSON.stringify(current_user_products));
+		res.send({
+			result: req.cookies[`user_${req.user._id}`],
+		});
+	} else {
+		let promise = new Promise(function(resolve, reject) {
+			let product = req.body.product;
+			let_user_mac = `user_${getmac.default()}`;
+			let current_user_products;
+
+			if (typeof req.cookies[let_user_mac] != 'undefined') {
+				current_user_products = JSON.parse(req.cookies[let_user_mac]);
+			} else {
+				current_user_products = [];
+			}
+
+			current_user_products.push(product._id);
+			if (current_user_products.length) {
+				resolve([let_user_mac, JSON.stringify(current_user_products)]);
+			}
+		});
+
+		// resolve runs the first function in .then
+		promise
+			.then((result) => {
+				res.cookie([result[0]], result[1]);
+				return result;
+			})
+			.then((result) => {
+				res.send({
+					result: result,
+				});
+			});
+	}
+});
+
+router.get('/get-user-item', function(req, res) {
+	if (req.isAuthenticated()) {
+		let user = `user_${req.user._id}`;
+		res.send({
+			user,
+			result: JSON.parse(req.cookies[user]),
+		});
+	} else {
+		let user = `user_${getmac.default()}`;
+		res.send({
+			user,
+			result: JSON.parse(req.cookies[user]),
+		});
+	}
 });
 
 module.exports = router;

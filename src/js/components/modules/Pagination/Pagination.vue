@@ -119,15 +119,12 @@ export default {
   watch: {
     category_search: function(newVal, oldVal) {
       this.category = newVal;
-      console.log(newVal);
     },
     brand_search: function(newVal, oldVal) {
       this.brand = newVal;
-      console.log(newVal);
     },
     isColored_search: function(newVal, oldVal) {
       this.isColored = newVal;
-      console.log(newVal);
     },
     initially: function(newVal, oldVal) {
       this.isInitial = newVal;

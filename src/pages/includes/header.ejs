@@ -30,11 +30,6 @@
 							><small>PRINTERS AND CARTRIDGES</small></a
 						>
 					</li>
-					<li <% if (location == 'parts') { %> class="nav-item active" <% } else { %> class="nav-item" <%}  %>>
-						<a class="nav-link" href="#"
-							><small>PARTS</small></a
-						>
-					</li>
 				</ul>
 				<search-component></search-component>
 				<ul class="navbar-nav ml-auto">
@@ -63,6 +58,7 @@
 						</li>
 					<%}  %>
 				</ul>
+				<cart-component></cart-component>
 			</div>
 		</div>
 	</nav>

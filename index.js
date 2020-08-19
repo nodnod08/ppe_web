@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const path = require('path');
 var session = require('express-session');
@@ -13,6 +14,7 @@ require('./config/passport')(passport);
 const app = express();
 
 // middlewares
+app.use(cookieParser());
 app.use(cors());
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');

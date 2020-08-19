@@ -4,6 +4,7 @@ import VueScrollReveal from 'vue-scroll-reveal';
 import Vuelidate from 'vuelidate';
 import babelPolyfill from 'babel-polyfill';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import VueCookies from 'vue-cookies';
 
 // local modules
 import { store } from './store';
@@ -12,6 +13,7 @@ import { store } from './store';
 Vue.use(Vuelidate);
 Vue.use(VueScrollReveal);
 Vue.use(CKEditor);
+Vue.use(VueCookies);
 
 // components pages
 import Index from './components/pages/Index/Index.vue';
@@ -28,6 +30,7 @@ import Pagination from './components/modules/Pagination/Pagination.vue';
 import Loader from './components/modules/Loader/Loader.vue';
 import Subscribe from './components/modules/Subscribe/Subscribe.vue';
 import Search from './components/modules/Search/Search.vue';
+import Cart from './components/modules/Cart/Cart.vue';
 
 // renders
 Vue.component('index-component', Index);
@@ -40,6 +43,7 @@ Vue.component('support-component', Support);
 Vue.component('terms-component', Terms);
 
 Vue.component('search-component', Search);
+Vue.component('cart-component', Cart);
 Vue.component('Paginate', Pagination);
 Vue.component('Loader', Loader);
 Vue.component('subscribe-component', Subscribe);

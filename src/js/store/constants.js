@@ -5,4 +5,8 @@ export default {
 		user: {},
 		token: '',
 	},
+	cart: {
+		user: '',
+		items: [],
+	},
 };
