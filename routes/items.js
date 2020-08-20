@@ -202,7 +202,7 @@ router.post('/add-to-cart', async function(req, res) {
 		// resolve runs the first function in .then
 		promise
 			.then((result) => {
-				res.cookie([result[0]], result[1]);
+				res.cookie([result[0]], result[1], { maxAge: 7 * 60 * 60 * 1000, httpOnly: false });
 				return result;
 			})
 			.then((result) => {
@@ -218,15 +218,26 @@ router.get('/get-user-item', function(req, res) {
 		let user = `user_${req.user._id}`;
 		res.send({
 			user,
-			result: JSON.parse(req.cookies[user]),
+			result: req.cookies[user] != null ? JSON.parse(req.cookies[user]) : null,
 		});
 	} else {
 		let user = `user_${getmac.default()}`;
 		res.send({
 			user,
-			result: JSON.parse(req.cookies[user]),
+			result: req.cookies[user] != null ? JSON.parse(req.cookies[user]) : null,
 		});
 	}
+});
+
+router.post('/get-all-items', async function(req, res) {
+	const list_of_ids = req.body.items;
+
+	const result = await Items.find({ _id: { $in: list_of_ids } })
+		.populate('brand')
+		.exec();
+	res.send({
+		result,
+	});
 });
 
 module.exports = router;

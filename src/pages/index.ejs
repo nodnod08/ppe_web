@@ -23,7 +23,8 @@
 			include('support_page') -%> <% break; case 'product' : %> <%- include('product_page') -%> <%
 			break; case 'terms-and-conditions' : %> <%- include('terms_of_use') -%> <% break; case 'login'
 			: %> <%- include('login_page') -%> <% break; case 'register' : %> <%- include('register_page')
-			-%> <% break; } %> <%- include('includes/footer') -%>
+			-%> <% break; case 'your-cart' : %> <%- include('cart_page')
+			-%> <% break; } %><%- include('includes/footer') -%>
 		</div>
 		<script
 			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

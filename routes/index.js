@@ -145,4 +145,8 @@ router.get('/terms-and-conditions', researcher, routeParse, renderer, async func
 	res.showView(null, null);
 });
 
+router.get('/your-cart', routeParse, renderer, async function (req, res) {
+	res.showView(null, null);
+});
+
 module.exports = router;

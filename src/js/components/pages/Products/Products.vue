@@ -126,7 +126,7 @@
 										<i class="fa fa-info-circle"></i> View Full Details
 									</button>
 								</a>
-								<button
+								<button v-if="product.hasOwnProperty('price')"
 									type="button"
 									@click="addToCart(product)"
 									class="btn btn-sm btn-outline-secondary"
