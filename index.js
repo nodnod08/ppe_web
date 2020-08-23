@@ -59,6 +59,7 @@ app.use('/api-user', require('./routes/user'));
 app.use('/api-item-categories', require('./routes/item_categories'));
 app.use('/api-brands', require('./routes/brands'));
 app.use('/api-items', require('./routes/items'));
+app.use('/api-payment', require('./routes/payment'));
 
 // port listen
 app.listen({ hostname: process.env.APP_URL, port: process.env.PORT || 5000 }, () => {

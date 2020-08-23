@@ -3,6 +3,7 @@ const { VueLoaderPlugin } = require('vue-loader');
 const DEV_DIRECTORY = path.join(__dirname, 'src', 'js');
 const PROD_DIRECTORY = path.join(__dirname, 'src', 'build');
 const fs = require('fs');
+const Dotenv = require('dotenv-webpack');
 
 const { getAllfiles } = require('./config/list_all_files');
 
@@ -43,5 +44,6 @@ module.exports = {
 	plugins: [
 		// make sure to include the plugin for the magic
 		new VueLoaderPlugin(),
+		new Dotenv(),
 	],
 };
