@@ -12,7 +12,6 @@ const passport = require('passport');
 //middlewares
 const routeParse = require('./../middleware/routeParser');
 const renderer = require('./../middleware/viewRenderer');
-const researcher = require('./../middleware/researcher');
 
 // MODELS
 const Item_Categories = require('../models/Item_Categories');
@@ -59,7 +58,7 @@ router.get('/auth/google/redirect', function(req, res, next) {
 	})(req, res, next);
 });
 
-router.get('/products', researcher, routeParse, renderer, async function(req, res) {
+router.get('/products', routeParse, renderer, async function(req, res) {
 	const query = req.query;
 	const page = Number(query.page);
 	const perPage = query.perPage || 9;
@@ -110,7 +109,7 @@ router.get('/products', researcher, routeParse, renderer, async function(req, re
 	);
 });
 
-router.get('/product/:id', researcher, routeParse, renderer, async function(req, res) {
+router.get('/product/:id', routeParse, renderer, async function(req, res) {
 	const id = req.params.id;
 
 	const result = await Items.findOne({ _id: id })
@@ -133,15 +132,15 @@ router.get('/product/:id', researcher, routeParse, renderer, async function(req,
 	);
 });
 
-router.get('/about-us', researcher, routeParse, renderer, async function(req, res) {
+router.get('/about-us', routeParse, renderer, async function(req, res) {
 	res.showView(null, null);
 });
 
-router.get('/support', researcher, routeParse, renderer, async function(req, res) {
+router.get('/support', routeParse, renderer, async function(req, res) {
 	res.showView(null, null);
 });
 
-router.get('/terms-and-conditions', researcher, routeParse, renderer, async function(req, res) {
+router.get('/terms-and-conditions', routeParse, renderer, async function(req, res) {
 	res.showView(null, null);
 });
 
